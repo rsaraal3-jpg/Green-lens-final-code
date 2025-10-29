@@ -1,0 +1,267 @@
+[5:28 pm, 29/10/2025] 🌝Sharmi💙🎀: import React from "react";
+import { Routes, Route, Link } from "react-router-dom";
+import Home from "./features/Home";
+import AiProductScanner from "./features/AiProductScanner";
+import CarbonCalculator from "./features/CarbonCalculator";
+import EcoChallenges from "./features/EcoChallenges";
+import WaterUsageTracker from "./features/WaterUsageTracker";
+import EcoAssistant from "./features/EcoAssistant";
+import DigitalTree from "./features/DigitalTree";
+
+export default function App() {
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-800">
+      <header className="bg-white shadow-sm sticky top-0 z-10">
+        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+          <h1 className="text-xl font-semibold">Green…
+[5:49 pm, 29/10/2025] 🌝Sharmi💙🎀: import React from "react";
+import { Routes, Route, Link } from "react-router-dom";
+import Home from "./features/Home";
+import AiProductScanner from "./features/AiProductScanner";
+import CarbonCalculator from "./features/CarbonCalculator";
+import EcoChallenges from "./features/EcoChallenges";
+import WaterUsageTracker from "./features/WaterUsageTracker";
+import EcoAssistant from "./features/EcoAssistant";
+import DigitalTree from "./features/DigitalTree";
+
+export default function App() {
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-800">
+      <header className="bg-white shadow-sm sticky top-0 z-10">
+        <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+          <h1 className="text-xl font-semibold">GreenLens</h1>
+          <nav className="space-x-3">
+            <Link to="/" className="hover:underline">Home</Link>
+            <Link to="/scanner" className="hover:underline">Scanner</Link>
+            <Link to="/carbon" className="hover:underline">Carbon</Link>
+            <Link to="/challenges" className="hover:underline">Challenges</Link>
+            <Link to="/water" className="hover:underline">Water</Link>
+            <Link to="/assistant" className="hover:underline">Eco AI</Link>
+            <Link to="/tree" className="hover:underline">Digital Tree</Link>
+          </nav>
+        </div>
+      </header>
+
+      <main className="max-w-5xl mx-auto p-4">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/scanner" element={<AiProductScanner />} />
+          <Route path="/carbon" element={<CarbonCalculator />} />
+          <Route path="/challenges" element={<EcoChallenges />} />
+          <Route path="/water" element={<WaterUsageTracker />} />
+          <Route path="/assistant" element={<EcoAssistant />} />
+          <Route path="/tree" element={<DigitalTree />} />
+        </Routes>
+      </main>
+
+      <footer className="text-center text-sm text-slate-500 py-6">
+        © {new Date().getFullYear()} GreenLens — Built with ♻️
+      </footer>
+    </div>
+  );
+}
+import React, { useState } from "react";
+
+export default function WaterUsageTracker() {
+  const [data, setData] = useState({
+    showerMinutes: "",
+    flushCount: "",
+    laundryLoads: "",
+    plantMinutes: "",
+  });
+  const [total, setTotal] = useState<number | null>(null);
+  const [tip, setTip] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const calculateUsage = () => {
+    const shower = Number(data.showerMinutes) * 10;
+    const flush = Number(data.flushCount) * 6;
+    const laundry = Number(data.laundryLoads) * 70;
+    const plants = Number(data.plantMinutes) * 1.5;
+
+    const totalLitres = shower + flush + laundry + plants;
+    setTotal(totalLitres);
+
+    if (totalLitres > 300)
+      setTip("Try shorter showers and full laundry loads 💧");
+    else if (totalLitres > 150)
+      setTip("Good! Save more by reducing plant watering time 🌱");
+    else setTip("Excellent! You’re conserving water wisely 🌍");
+  };
+
+  const impactMessage = total
+    ? You saved approximately ${(500 - total).toFixed(0)} L — enough clean water for ${(500 - total) / 50 >= 1 ? (500 - total) / 50 : 1} people for a day! 💦
+    : "";
+
+  return (
+    <div className="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6 text-center">
+      <h2 className="text-2xl font-bold mb-4 text-blue-700">
+        💧 Water Usage Tracker
+      </h2>
+
+      <div className="space-y-3">
+        <input
+          type="number"
+          name="showerMinutes"
+          value={data.showerMinutes}
+          onChange={handleChange}
+          placeholder="Shower minutes"
+          className="w-full p-2 border rounded-lg"
+        />
+        <input
+          type="number"
+          name="flushCount"
+          value={data.flushCount}
+          onChange={handleChange}
+          placeholder="Toilet flush count"
+          className="w-full p-2 border rounded-lg"
+        />
+        <input
+          type="number"
+          name="laundryLoads"
+          value={data.laundryLoads}
+          onChange={handleChange}
+          placeholder="Laundry loads"
+          className="w-full p-2 border rounded-lg"
+        />
+        <input
+          type="number"
+          name="plantMinutes"
+          value={data.plantMinutes}
+          onChange={handleChange}
+          placeholder="Plant watering minutes"
+          className="w-full p-2 border rounded-lg"
+        />
+
+        <button
+          onClick={calculateUsage}
+          className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700"
+        >
+          Calculate Usage
+        </button>
+      </div>
+
+      {total !== null && (
+        <div className="mt-5">
+          <h3 className="text-xl font-semibold">
+            Total Water Used: {total.toFixed(1)} L
+          </h3>
+          <p className="text-green-700 mt-2">{tip}</p>
+          <p className="text-sm text-blue-800 mt-2 italic">{impactMessage}</p>
+        </div>
+      )}
+
+      {/* 🌿 NGO Support Section */}
+      <div className="mt-8 p-4 bg-green-50 rounded-xl shadow-inner">
+        <h4 className="text-lg font-bold text-green-800 mb-2">
+          🌍 Partner NGO Spotlight
+        </h4>
+
+        <div className="flex flex-col items-center space-y-2">
+          <img
+            src="https://www.wateraid.org/in/themes/custom/wateraid/logo.svg"
+            alt="WaterAid India"
+            className="w-32"
+          />
+          <p className="text-gray-700 text-sm">
+            Your water-saving actions support organizations like{" "}
+            <span className="font-semibold text-green-700">WaterAid India</span> —
+            bringing clean water to rural communities.
+          </p>
+          <a
+            href="https://www.wateraid.org/in/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 mt-2"
+          >
+            💧 Visit Official NGO
+          </a>
+          <p className="text-xs text-gray-500 mt-1 italic">
+            We don’t collect donations — this links directly to the NGO’s official website.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+import React, { useState } from "react";
+
+export default function EcoAssistant() {
+  const [query, setQuery] = useState("");
+  const [response, setResponse] = useState("");
+
+  const askAi = () => {
+    if (!query.trim()) {
+      setResponse("💬 Please ask me something about the environment or sustainability!");
+      return;
+    }
+
+    const q = query.toLowerCase();
+    let answer = "🌱 That's an interesting question! Living sustainably is always the best start.";
+
+    if (q.includes("recycle") || q.includes("plastic")) {
+      answer = "♻️ Recycling and reducing plastic use are vital! Choose reusable bags, bottles, and avoid single-use plastics whenever possible.";
+    } else if (q.includes("carbon") || q.includes("footprint")) {
+      answer = "🌿 To lower your carbon footprint: walk or bike when you can, eat less red meat, reduce electricity use, and support clean energy.";
+    } else if (q.includes("water") || q.includes("save water")) {
+      answer = "💧 Conserve water by fixing leaks, using efficient taps, reusing greywater for plants, and collecting rainwater. Every drop counts!";
+    } else if (q.includes("energy") || q.includes("electricity") || q.includes("power")) {
+      answer = "⚡ Save energy by switching to LED bulbs, turning off unused appliances, using natural light, and considering solar power.";
+    } else if (q.includes("tree") || q.includes("forest") || q.includes("plant")) {
+      answer = "🌳 Trees absorb CO₂, cool the air, and support wildlife. Plant native trees in your community or support reforestation projects!";
+    } else if (q.includes("diet") || q.includes("food") || q.includes("vegan") || q.includes("meat")) {
+      answer = "🥗 Eating a plant-rich diet helps the planet! Try local, seasonal produce and reduce red meat to lower emissions.";
+    } else if (q.includes("compost") || q.includes("waste")) {
+      answer = "🌱 Composting food scraps turns waste into soil nutrients, reducing methane emissions from landfills and enriching gardens.";
+    } else if (q.includes("transport") || q.includes("travel") || q.includes("car")) {
+      answer = "🚲 Use public transport, carpool, or cycle when possible. For long trips, offset your carbon emissions by supporting tree planting.";
+    } else if (q.includes("climate") || q.includes("global warming") || q.includes("earth")) {
+      answer = "🌎 Climate change can be fought by reducing emissions, conserving energy, protecting forests, and supporting renewable energy initiatives.";
+    } else if (q.includes("pollution") || q.includes("air")) {
+      answer = "🌬️ Reduce air pollution by minimizing car use, planting trees, and supporting clean air initiatives. Avoid burning waste outdoors.";
+    } else if (q.includes("ocean") || q.includes("marine")) {
+      answer = "🌊 Protect oceans by cutting plastic use, supporting beach cleanups, and choosing sustainable seafood.";
+    } else if (q.includes("renewable") || q.includes("solar") || q.includes("wind")) {
+      answer = "🔋 Renewable energy sources like solar and wind are clean and sustainable — consider installing panels or supporting green energy companies.";
+    } else if (q.includes("biodiversity") || q.includes("wildlife")) {
+      answer = "🦋 Protect biodiversity by avoiding pesticides, supporting conservation areas, and creating pollinator-friendly gardens.";
+    }
+
+    setResponse(answer);
+  };
+
+  return (
+    <div className="max-w-xl mx-auto text-center bg-green-50 p-6 rounded-lg shadow">
+      <h2 className="text-2xl font-bold mb-2">🌿 Eco AI Assistant</h2>
+      <p className="text-gray-700 mb-4">
+        Ask me anything about the environment, sustainability, or climate — I’ll guide you toward
+        greener choices!
+      </p>
+
+      <div className="flex justify-center items-center gap-2 mb-4">
+        <input
+          type="text"
+          placeholder="e.g., How can I reduce my carbon footprint?"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="border border-green-300 rounded px-3 py-2 w-3/4 focus:outline-none focus:ring-2 focus:ring-green-400"
+        />
+        <button
+          onClick={askAi}
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition"
+        >
+          Ask AI
+        </button>
+      </div>
+
+      {response && (
+        <p className="bg-green-100 text-gray-800 p-4 rounded-md shadow-inner text-left">
+          {response}
+        </p>
+      )}
+    </div>
+  );
+}
